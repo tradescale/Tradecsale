@@ -1,4 +1,20 @@
+import { useState } from "react";
+
 export default function TradeScaleLandingPage() {
+  const [formData, setFormData] = useState({ name: "", trade: "", postcode: "", phone: "", experience: "", availability: "" });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const mailtoLink = `mailto:charliedixon2004@gmail.com?subject=New Tradesman Application&body=Name: ${formData.name}%0ATrade: ${formData.trade}%0APostcode: ${formData.postcode}%0APhone: ${formData.phone}%0AExperience: ${formData.experience}%0AAvailability: ${formData.availability}`;
+    window.location.href = mailtoLink;
+    setSubmitted(true);
+  };
+
   return (
     <main className="min-h-screen bg-white text-black p-6">
       {/* Hero Section */}
@@ -7,9 +23,9 @@ export default function TradeScaleLandingPage() {
         <p className="text-lg text-gray-600 mb-8">
           We supply independent tradesmen with quality jobs and only take 5% — no upfront fees, no gimmicks.
         </p>
-        <button className="bg-black text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-800 transition">
+        <a href="#apply" className="bg-black text-white px-6 py-3 rounded-2xl shadow-lg hover:bg-gray-800 transition inline-block">
           Apply for Jobs Now
-        </button>
+        </a>
       </section>
 
       {/* Features Section */}
@@ -44,9 +60,9 @@ export default function TradeScaleLandingPage() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Are You a Reliable Tradesman?</h2>
           <p className="text-lg mb-6">If you take pride in your work and want more jobs without the headache of marketing or lead fees — you're who we're looking for.</p>
-          <button className="bg-white text-black px-6 py-3 rounded-2xl shadow hover:bg-gray-200 transition">
+          <a href="#apply" className="bg-white text-black px-6 py-3 rounded-2xl shadow hover:bg-gray-200 transition inline-block">
             Get Started
-          </button>
+          </a>
         </div>
       </section>
 
@@ -73,13 +89,24 @@ export default function TradeScaleLandingPage() {
         </div>
       </section>
 
-      {/* Application Form Section (Coming Soon) */}
-      <section className="bg-gray-100 py-12 text-center">
+      {/* Application Form Section */}
+      <section id="apply" className="bg-gray-100 py-12 text-center">
         <h2 className="text-3xl font-bold mb-4">Apply to Join the Network</h2>
         <p className="text-lg text-gray-600 mb-6">We're currently onboarding qualified tradesmen across the UK. Fill out the form and we’ll be in touch.</p>
-        <button className="bg-black text-white px-6 py-3 rounded-2xl shadow hover:bg-gray-800 transition">
-          Apply Now
-        </button>
+
+        {!submitted ? (
+          <form onSubmit={handleSubmit} className="max-w-xl mx-auto text-left space-y-4">
+            <input className="w-full border p-3 rounded" type="text" name="name" placeholder="Full Name" onChange={handleChange} required />
+            <input className="w-full border p-3 rounded" type="text" name="trade" placeholder="Trade (e.g., Plumber, Electrician)" onChange={handleChange} required />
+            <input className="w-full border p-3 rounded" type="text" name="postcode" placeholder="Postcode" onChange={handleChange} required />
+            <input className="w-full border p-3 rounded" type="text" name="phone" placeholder="Phone Number" onChange={handleChange} required />
+            <input className="w-full border p-3 rounded" type="text" name="experience" placeholder="Years of Experience" onChange={handleChange} />
+            <input className="w-full border p-3 rounded" type="text" name="availability" placeholder="Availability (e.g., Mon-Fri, Weekends)" onChange={handleChange} />
+            <button className="bg-black text-white px-6 py-3 rounded-2xl shadow hover:bg-gray-800 transition w-full">Send Application</button>
+          </form>
+        ) : (
+          <p className="text-green-700 text-xl font-semibold">Thanks for applying! We'll be in touch soon.</p>
+        )}
       </section>
     </main>
   );
